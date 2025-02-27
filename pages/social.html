@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="socialTitle">夜市動態分享社群</title>
+    <link rel="stylesheet" href="../css/social.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="../javascript/social.js"></script>
+</head>
+
+<body>
+    <!-- 側邊選單按鈕和內容 -->
+    <div class="sidebar-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="../pages/home.html" data-i18n="home">首頁 Font page</a>
+            <a href="../pages/home.html" data-i18n="home">個人檔案 Profile</a>
+            <a href="../pages/message.html" data-i18n="home">訊息 Message</a>
+            <a href="../pages/followed.html" data-i18n="home">已追蹤的好友 Followed</a>
+            <!-- 可以在這裡添加更多選單項目 -->
+        </nav>
+        <div class="auth-buttons">
+            <script>
+                // 檢查登入狀態
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+                if (currentUser.username) {
+                    document.write(`
+                        <span class="user-info">
+                            <img src="${currentUser.avatar}" alt="頭像" class="user-avatar">
+                            ${currentUser.username}
+                        </span>
+                        <a href="#" onclick="logout()" class="auth-link">登出</a>
+                    `);
+                } else {
+                    document.write(`
+                        <a href="../pages/login.html" class="auth-link">登入</a>
+                        <span class="auth-separator">|</span>
+                        <a href="../pages/register.html" class="auth-link">註冊</a>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
+
+    <header>
+        <section class="top-menu">
+            <div class="top-follow">
+                <button class="menu-btn active" data-i18n="following">追蹤中 Follow</button>
+            </div>
+            <div class="top-all">
+                <button class="menu-btn" data-i18n="all">全部 All</button>
+            </div>
+            <div class="top-city">
+                <button class="menu-btn" data-i18n="nearby">附近 Nearby</button>
+            </div>
+        </section>
+    </header>
+
+    <!-- 在 header 後面添加主要內容區域 -->
+    <main class="main-content">
+        <!-- 貼文顯示區域 -->
+        <div class="posts-container">
+            <!-- 這裡將動態插入發文內容 -->
+        </div>
+
+        <!-- 發文按鈕和模態框 -->
+        <section class="New-Post">
+            <div class="post">
+                <button class="create-post-btn" onclick="openPostModal()">
+                    <span class="plus-icon">+</span>
+                    <span class="btn-text" data-i18n="newPost">發文</span>
+                </button>
+            </div>
+            <div class="post-modal" id="postModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 data-i18n="create-post">建立貼文</h2>
+                        <button class="close-btn" onclick="closePostModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="manname-head">
+                            <img src="" alt="使用者頭像" class="user-avatar">
+                            <span class="user-id"></span>
+                        </div>
+                        <div class="location-select">
+                            <label data-i18n="selectLocation">地點:</label>
+                            <select id="locationSelect">
+                                <option value="" data-i18n="chooseLoc">請選擇點</option>
+                                <option value="taipei">台北夜市</option>
+                                <option value="taichung">台中夜市</option>
+                                <option value="kaohsiung">高雄夜市</option>
+                            </select>
+                        </div>
+                        <div class="post-content">
+                            <textarea id="postText" placeholder="分享你的想法..." data-i18n="shareThoughts"></textarea>
+                        </div>
+                        <div class="image-upload">
+                            <label for="imageInput" class="upload-btn">
+                                <span class="newpth" data-i18n="addPhoto">添加照片</span>
+                            </label>
+                            <input type="file" id="imageInput" accept="image/*" multiple
+                                onchange="previewImages(event)">
+                            <div class="image-preview" id="imagePreview"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="post-submit-btn" onclick="submitPost()" data-i18n="post">發布</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../javascript/i18n.js"></script>
+    <script>
+        // 內聯腳本
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.sidebar-toggle').classList.toggle('active');
+        }
+
+        // 添加選單按鈕切換效果
+        document.querySelectorAll('.menu-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.menu-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

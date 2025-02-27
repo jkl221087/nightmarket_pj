@@ -1,0 +1,609 @@
+:root {
+    --primary-color: #ff6f61;
+    --secondary-color: #1a1a1a;
+    --accent-color: #ffc107;
+    --bg-gradient: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2));
+}
+
+/* 重置樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+/* 主要樣式 */
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* 導覽列 */
+.nav-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(1px);
+    transition: all 0.3s ease;
+}
+
+.logo {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.nav-container.scrolled {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 40px;
+}
+
+.language-toggle {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.language-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Hero 區域 */
+.hero {
+    position: relative;
+    height: 100vh;
+    background: url(../tp.jpg) center/cover no-repeat;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.particle-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-gradient);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #ffffff;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slider / About 區域 */
+.p-top-about {
+    background-color: #ffffff;
+    padding: 80px 0;
+    width: 100%;
+    position: relative;
+}
+
+.p-top-plan__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.p-top-section-header__heading {
+    text-align: left;
+    margin-bottom: 80px;
+    padding-left: 40px;
+}
+
+.line {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.char {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 8px;
+}
+
+.content-wrapper {
+    width: 100%;
+    margin: auto;
+}
+
+.slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.slider-content {
+    display: flex;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    perspective: 1000px;
+}
+
+.content-item {
+    display: flex;
+    width: 100%;
+    min-width: 100%;
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.8s ease;
+    transform: rotateY(15deg);
+}
+
+.content-item.active {
+    opacity: 1;
+    transform: rotateY(0deg);
+}
+
+.text-container {
+    flex: 1;
+    padding-right: 2rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.8s ease;
+}
+
+.content-item.active .text-container {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.image-container {
+    flex: 1;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.content-item.active .image-container img {
+    transform: scale(1.05);
+}
+
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.slider-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: var(--primary-color);
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+/* ---------------------
+   店家消息(News) 區域
+--------------------- */
+
+/* 容器本身保持原有設定，可視需要調整 */
+.p-top-news {
+    background-color: #ffffff;
+    padding: 80px 0;
+    width: 100%;
+    position: relative;
+    margin-top: 50px;
+    clear: both;
+}
+
+.news-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* 
+  新聞網格: 左側大卡(主新聞) + 右側 3 張小卡 
+  2欄佈局 (2fr : 1fr)
+*/
+.news-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    /* 左 2 倍寬度，右 1 倍寬度 */
+    gap: 30px;
+}
+
+/* 主新聞卡片 (左側大卡) */
+.news-main {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.news-main:hover {
+    transform: translateY(-5px);
+}
+
+/* 小新聞群組 (右側) */
+.news-sub-group {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    /* 3 列，均分垂直空間 */
+    gap: 15px;
+}
+
+/* 小新聞卡片 */
+.news-sub {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.news-sub:hover {
+    transform: translateY(-5px);
+}
+
+/* 圖片容器與圖片懸停效果 */
+.image-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 250px;
+    /* 可依需求調整固定高度，讓卡片高度一致 */
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.news-link:hover .image-wrapper img {
+    transform: scale(1.1);
+}
+
+/* 日期與標題位置 */
+.news-date,
+.news-title {
+    padding: 10px 20px;
+    /* 內距，讓文字不要貼邊 */
+}
+
+.news-date .date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.news-title h3 {
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* 
+   響應式調整: 
+   在螢幕較小時，主新聞與小新聞改為上下排列
+*/
+@media (max-width: 768px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+        /* 只剩一欄 */
+        grid-auto-rows: auto;
+        /* 高度自動 */
+    }
+
+    .news-sub-group {
+        grid-template-rows: none;
+        /* 取消固定列數 */
+        grid-template-columns: 1fr;
+        /* 每則小新聞佔一整欄 */
+    }
+
+    .image-wrapper {
+        height: 180px;
+        /* 小螢幕時稍微縮小圖片高度 */
+    }
+}
+
+.news-link:hover .image-wrapper img {
+    transform: scale(1.1);
+}
+
+.news-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 10px 0;
+}
+
+.news-main .news-date {
+    font-size: 1rem;
+}
+
+/* Tophott 區域 */
+.tophott {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+}
+
+.tophot-container {
+    width: 1200px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tophot-item {
+    width: 1000px;
+    margin: 15px;
+    display: flex;
+    background-color: #ffffff;
+    border: 1px solid #888;
+    box-shadow: 0 10px 30px #888;
+}
+
+.tophot-pic {
+    width: 50%;
+}
+
+.tophot-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tophot-text {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tophot-text h2 {
+    font-weight: bold;
+    margin-bottom: 0.4em;
+}
+
+.tophot-text p {
+    font-weight: 300;
+}
+
+.tophot-btn {
+    align-self: flex-end;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 200px;
+    padding: 0.5em 1em;
+    margin-top: auto;
+    color: #000;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tophot-btn:hover {
+    background-color: #ccc;
+    color: #fff;
+}
+
+/* Footer 區域 */
+.main-footer {
+    padding: 150px 0 0;
+    width: 100%;
+}
+
+.main-footer .container {
+    display: flex;
+    width: 1200px;
+    margin: auto;
+}
+
+.footer-item {
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.footer-item nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-item nav a {
+    color: #000;
+    text-decoration: none;
+    padding: 20px 0 0;
+}
+
+.footer-item h4 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px dotted #000;
+}
+
+.copyright {
+    width: 100%;
+    text-align: center;
+    margin-top: 150px;
+    padding: 20px 0;
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+/* Card Design (可選) */
+.card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 48px;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .news-grid {
+        flex-direction: column;
+    }
+
+    .news-main,
+    .news-sub-group {
+        width: 100%;
+    }
+
+    .news-main .image-wrapper {
+        height: 300px;
+    }
+}
+
+/* Scroll Reveal 效果 (預設狀態) */
+.scroll-reveal {
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+/* 當加入 .active 後展開至正常大小 */
+.scroll-reveal.active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    z-index: 4;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator .arrow {
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-bottom: 3px solid #fff;
+    border-right: 3px solid #fff;
+    transform: rotate(45deg);
+    margin: 0 auto;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* 簡單視差效果 (示範 Hero 區域背景跟隨滾動) */
+.hero {
+    background-attachment: fixed;
+}

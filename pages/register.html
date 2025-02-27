@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊 | 夜市美食地圖</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h2>註冊帳號</h2>
+                <p>歡迎加入！請填寫以下資料</p>
+            </div>
+
+            <form id="registerForm" onsubmit="return handleRegister(event)">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                        帳號
+                    </label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        電子信箱
+                    </label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                        密碼
+                    </label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i>
+                        確認密碼
+                    </label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <button type="submit" class="login-btn">註冊</button>
+
+                <div class="register-link">
+                    已經有帳號？ <a href="login.html">立即登入</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../javascript/register.js"></script>
+</body>
+
+</html>

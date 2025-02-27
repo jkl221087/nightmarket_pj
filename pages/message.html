@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="messageTitle">訊息</title>
+    <link rel="stylesheet" href="../css/message.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="login-overlay" style="display: none;">
+        <div class="login-message">
+            <h2>請先登入</h2>
+            <p>您需要登入才能使用訊息功能</p>
+            <a href="../pages/login.html" class="login-btn">前往登入</a>
+        </div>
+    </div>
+    <div class="message-container">
+        <!-- 左側聊天列表 -->
+        <div class="chat-list">
+            <div class="chat-header">
+                <h2>訊息</h2>
+            </div>
+            <!-- 聊天列表項目 -->
+            <div class="chat-item active">
+                <img src="../672311620.jpg" alt="用戶頭像" class="chat-avatar">
+                <div class="chat-info">
+                    <div class="chat-name">John Doe</div>
+                    <div class="chat-preview"></div>
+                </div>
+                <div class="chat-meta">
+                    <span class="chat-time"></span>
+                    <span class="unread-count" style="display: none;"></span>
+                </div>
+            </div>
+            <!-- 更多聊天項目 -->
+        </div>
+
+        <!-- 右側聊天內容 -->
+        <div class="chat-content">
+            <div class="chat-header">
+                <div class="chat-user">
+                    <img src="../672311620.jpg" alt="用戶頭像" class="chat-avatar">
+                    <div class="chat-name">John Doe</div>
+                </div>
+            </div>
+            
+            <div class="messages">
+                <!-- 訊息內容會在這裡動態��加 -->
+            </div>
+
+            <div class="message-input">
+                <input type="text" placeholder="輸入訊息..." id="messageInput">
+                <button>發送</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../javascript/message.js"></script>
+    <script src="../javascript/i18n.js"></script>
+</body>
+</html> 
