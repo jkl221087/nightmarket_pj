@@ -27,23 +27,29 @@
         </button>
         <h1 class="text-2xl font-bold">台灣夜市互動地圖</h1>
       </div>
+
+      <!-- 右側：搜尋框 -->
       <div class="search-container">
+
         <input type="text" placeholder="搜尋夜市..."
           class="bg-gray-700 px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
+
       </div>
     </div>
   </header>
 
   <!-- Main Content -->
   <main class="p-4">
-    <div class="gap-4">
+    <div class="max-w-6xl mx-auto">
       <!-- Map Section -->
       <div class="p-4">
-        <div class="map-container">
+        <!-- Map 區域：使用 RWD 設計，寬度全滿，高度依裝置調整 -->
+        <div class="map-container w-full h-64 md:h-96 lg:h-[500px] bg-gray-800 rounded-lg overflow-hidden">
           <!-- Taiwan SVG Map -->
           <svg viewBox="0 0 800 1100" class="w-full h-full" baseprofile="tiny" stroke="#ffffff" stroke-linecap="round"
             stroke-linejoin="round" stroke-width=".5" version="1.2" width="1000" xmlns="http://www.w3.org/2000/svg">
@@ -160,7 +166,7 @@
                   try {
                     const { latitude, longitude } = position.coords;
 
-                    // 假設我們有一個夜市資料陣列
+                    //夜市資料陣列
                     const nightMarkets = [
                       // 台北市
                       { name: "士林夜市", lat: 25.0878, lng: 121.5249, distance: 0 },

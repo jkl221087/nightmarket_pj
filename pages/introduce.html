@@ -2,10 +2,10 @@
 <html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
+    <!-- viewport meta 使得網頁在行動裝置上自適應 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>台灣夜市導覽</title>
-    <!-- 引入新版的 styles.css -->
     <link rel="stylesheet" href="../css/styles.css" />
-    <!-- AOS 動畫庫 -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   </head>
   <body>
@@ -19,7 +19,7 @@
       <button onclick="window.location.href='home.html'">返回首頁</button>
     </div>
 
-    <!-- 主容器：左側側邊欄 + 右側主要內容 -->
+    <!-- 主容器：包含側邊欄與右側主要內容 -->
     <div class="main-container">
       <!-- 側邊欄 -->
       <nav class="sidebar" data-aos="fade-right">
@@ -44,6 +44,7 @@
               <li class="market-item">大龍街夜市</li>
             </ul>
           </li>
+          <!-- 新北市 -->
           <li class="city-item">
             <span class="city-name" onclick="toggleList(this)">新北市</span>
             <ul class="night-market-list">
@@ -54,6 +55,7 @@
               <li class="market-item">金山老街夜市</li>
             </ul>
           </li>
+          <!-- 桃園市 -->
           <li class="city-item">
             <span class="city-name" onclick="toggleList(this)">桃園市</span>
             <ul class="night-market-list">
@@ -62,6 +64,7 @@
               <li class="market-item">大溪老街夜市</li>
             </ul>
           </li>
+          <!-- 新竹市 -->
           <li class="city-item">
             <span class="city-name" onclick="toggleList(this)">新竹市</span>
             <ul class="night-market-list">
@@ -145,9 +148,9 @@
         </ul>
       </nav>
 
-      <!-- 右側主要內容區 -->
+      <!-- 右側內容區 -->
       <div class="content-area">
-        <!-- 幻燈片區（可選） -->
+        <!-- 幻燈片區 -->
         <section class="slideshow-container" data-aos="fade-up">
           <div class="slides-wrapper">
             <div class="slides">
@@ -165,7 +168,7 @@
           </div>
         </section>
 
-        <!-- 主要介紹卡片式內容 -->
+        <!-- 主要介紹內容 -->
         <main class="content">
           <div id="market-info">
             <div class="market-title" data-aos="fade-up">
@@ -178,8 +181,7 @@
                 <div class="card-content">
                   <h3>吃不完的經典美味</h3>
                   <p>
-                    台灣的夜市文化起源於早期的廟會，隨著時代演變，
-                    夜市美食逐漸成為獨步全球的飲食文化，種類多元、價格親民。
+                    台灣的夜市文化起源於早期的廟會，隨著時代演變，夜市美食逐漸成為全球獨步的飲食文化，種類多元且價格親民。
                   </p>
                 </div>
               </div>
@@ -189,8 +191,7 @@
                 <div class="card-content">
                   <h3>豐富多元的異國料理</h3>
                   <p>
-                    兼容並蓄是台灣飲食文化的特色之一，不僅有日式、歐美料理，
-                    還有韓風與東南亞美食，讓夜市文化多采多姿。
+                    兼容並蓄是台灣飲食文化的特色，不僅有日式與歐美料理，還融合了韓風與東南亞美食，讓夜市充滿多元風味。
                   </p>
                 </div>
               </div>
@@ -198,10 +199,9 @@
               <div class="intro-card" data-aos="fade-right">
                 <img src="../672311620.jpg" alt="好吃" class="card-img" />
                 <div class="card-content">
-                  <h3>別錯過各大夜市的知名美食</h3>
+                  <h3>別錯過知名夜市美食</h3>
                   <p>
-                    各地夜市各有特色，如基隆廟口的芋泥球、饒河街的胡椒餅、
-                    逢甲夜市的大腸包小腸等，做足功課就能不留遺憾！
+                    各地夜市皆有獨特美味，如基隆廟口的芋泥球、饒河街的胡椒餅與藥燉排骨，以及逢甲夜市的大腸包小腸，吃貨們千萬別錯過！
                   </p>
                 </div>
               </div>
@@ -209,10 +209,9 @@
               <div class="intro-card" data-aos="fade-left">
                 <img src="../672311620.jpg" alt="好吃" class="card-img" />
                 <div class="card-content">
-                  <h3>依照逛夜市的目的來安排預算</h3>
+                  <h3>依逛夜市目的安排預算</h3>
                   <p>
-                    雖然夜市普遍平價，但有些美食或創意料理較高價，
-                    依個人預算選擇也能逛得盡興。
+                    雖然夜市美食普遍平價，但部份美食或創意料理價格較高，請依個人預算作適當選擇。
                   </p>
                 </div>
               </div>
@@ -224,7 +223,6 @@
     </div>
     <!-- end .main-container -->
 
-    <!-- JS 區 -->
     <script src="../javascript/main.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -233,8 +231,7 @@
         easing: "ease-in-out",
         once: true,
       });
-
-      // 側邊欄展開/收起
+      // 側邊欄收合效果
       function toggleList(element) {
         element.parentNode.classList.toggle("active");
       }

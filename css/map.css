@@ -1,7 +1,16 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  /* 若想要背景色可直接設定在此 */
+  background-color: #0F172A;
+  /* 假設想要深藍灰色背景 */
+}
+
 body {
   background: linear-gradient(to bottom, #1a1f2c, #2d3748);
   min-height: 100vh;
-  color: #e2e8f0;
+  color: #000000;
 }
 
 .map-container {
@@ -36,33 +45,38 @@ body {
 
 /* 資訊卡片樣式 */
 .info-card {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  /* 在小螢幕時自動縮放，不要硬性固定 300px */
+  width: clamp(280px, 90%, 320px);
+
   background: rgba(45, 55, 72, 0.95);
   backdrop-filter: blur(12px);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+
   display: none;
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-  width: 300px;
-  z-index: 1000;
+  z-index: 9999;
 }
 
+/* 顯示時套用 active，並有淡入動畫 */
 .info-card.active {
   display: block;
   animation: fadeIn 0.3s ease-in-out;
 }
 
+/* 簡單的淡入動畫 */
 @keyframes fadeIn {
   from {
-      opacity: 0;
-      transform: translateY(-10px);
+    opacity: 0;
+    transform: translateY(-10px);
   }
 
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -287,14 +301,18 @@ header {
 /* 響應式設計 */
 @media (max-width: 768px) {
   .info-card {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
-    width: 100%;
-    border-radius: 12px 12px 0 0;
-  }
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: auto;
+      width: 100%;
+      border-radius: 12px 12px 0 0;
+      z-index: 9999;
+      /* 確保高於其他元素 */
+      background-color: #fff;
+      /* 可以自行修改背景 */
+    }
   
   .map-container {
     height: calc(100vh - 160px);

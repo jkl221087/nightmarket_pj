@@ -2,16 +2,52 @@
 <html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
+    <!-- RWD 設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-i18n="pageTitle">台灣夜市搜尋地圖</title>
     <link rel="stylesheet" href="../css/home.css" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- 手機版導覽選單內嵌 CSS -->
+    <style>
+      /* 手機版選單預設隱藏 */
+      .mobile-menu-toggle {
+        display: none;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          background: var(--nav-bg);
+          position: absolute;
+          top: 60px;
+          left: 0;
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .mobile-menu-toggle {
+          display: block;
+        }
+      }
+    </style>
   </head>
   <body>
+    <!-- Header 區域 -->
     <header>
       <div class="nav-container">
-        <!-- 請確認 logo 圖片路徑正確 -->
+        <!-- Logo -->
         <img src="../672311620.jpg" alt="探索夜市" class="logo" />
+        <!-- 手機版漢堡選單按鈕 -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+          ☰
+        </button>
+        <!-- 導覽連結 -->
         <nav class="nav-links">
           <a href="map.html" id="mapLink" data-i18n="nightMarketMap"
             >夜市地圖</a
@@ -71,7 +107,6 @@
                     透過互動式地圖探索台灣各地夜市位置，輕鬆找到離您最近的美食天堂。提供即時導航與距離計算功能。
                   </p>
                 </div>
-                <!-- image-container 加入 scroll-reveal 效果 -->
                 <div class="image-container scroll-reveal" data-aos="zoom-in">
                   <img src="../672311620.jpg" alt="夜市地圖" />
                 </div>
@@ -258,16 +293,14 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../javascript/home.js"></script>
-    <!-- 初始化 AOS -->
     <script>
       AOS.init({
         duration: 1000,
         easing: "ease-in-out",
         once: true,
       });
-    </script>
-    <!-- 自訂滾動觸發效果：圖片展開 -->
-    <script>
+
+      // 自訂滾動觸發效果：圖片展開
       document.addEventListener("DOMContentLoaded", function () {
         const revealElements = document.querySelectorAll(".scroll-reveal");
         const observer = new IntersectionObserver(
@@ -285,6 +318,17 @@
           observer.observe(el);
         });
       });
+
+      // 側邊欄收合效果
+      function toggleList(element) {
+        element.parentNode.classList.toggle("active");
+      }
+
+      // 手機版導覽選單切換
+      function toggleMobileMenu() {
+        const nav = document.querySelector(".nav-links");
+        nav.classList.toggle("active");
+      }
     </script>
   </body>
 </html>
