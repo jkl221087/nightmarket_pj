@@ -7,7 +7,7 @@ async function handleLogin(event) {
     const remember = document.getElementById('remember').checked;
 
     try {
-        const response = await fetch('/nightmarket/api/login.php', {
+        const response = await fetch('/nightmarket_pj/api/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ async function handleLogin(event) {
                 localStorage.setItem('rememberedUser', username);
             }
 
-            window.location.href = '/nightmarket/pages/social.html';
+            window.location.href = '/nightmarket_pj/pages/social.html';
         } else {
             alert(data.message || '帳號或密碼錯誤！');
         }

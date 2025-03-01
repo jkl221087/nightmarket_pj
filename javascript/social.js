@@ -43,7 +43,7 @@ async function submitPost() {
         }
         
         // 發送 POST 請求到後端
-        const response = await fetch('http://localhost/nightmarket/api/posts.php', {
+        const response = await fetch('http://localhost/nightmarket_pj/api/posts.php', {
             method: 'POST',
             credentials: 'include',
             body: formData
@@ -164,7 +164,7 @@ function previewImages(event) {
 // 修改 loadPosts 函數
 async function loadPosts() {
     try {
-        const response = await fetch('http://localhost/nightmarket/api/posts.php', {
+        const response = await fetch('http://localhost/nightmarket_pj/api/posts.php', {
             method: 'GET',
             credentials: 'include'
         });
@@ -250,7 +250,7 @@ function checkLoginStatus() {
     const currentUser = localStorage.getItem('currentUser');
     
     if (isLoggedIn !== 'true' || !currentUser) {
-        window.location.href = 'http://localhost/nightmarket/pages/login.html';
+        window.location.href = 'http://localhost/nightmarket_pj/pages/login.html';
         return false;
     }
     return true;
@@ -272,14 +272,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // 添加登��函數
 window.logout = async function() {
     try {
-        const response = await fetch('http://localhost/nightmarket/api/logout.php', {
+        const response = await fetch('http://localhost/nightmarket_pj/api/logout.php', {
             method: 'POST',
             credentials: 'include'
         });
         
         localStorage.removeItem('login_logs');
         localStorage.removeItem('currentUser');
-        window.location.href = 'http://localhost/nightmarket/pages/login.html';
+        window.location.href = 'http://localhost/nightmarket_pj/pages/login.html';
     } catch (error) {
         console.error('登出錯誤:', error);
         alert('登出失敗，請稍後重試');
@@ -353,65 +353,5 @@ function updateUserInfo() {
     
     if (userId) {
         userId.textContent = currentUser.username || '未登入';
-    }
-}
-
-// 追蹤/取消追蹤用戶
-async function toggleFollow(button, userId) {
-    try {
-        // 檢查是否是自己
-        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        if (userId === currentUser.id) {
-            alert('不能追蹤自己');
-            return;
-        }
-
-        const isFollowing = button.classList.contains('following');
-        const action = isFollowing ? 'unfollow' : 'follow';
-        
-        const formData = new FormData();
-        formData.append('following_id', userId);
-        formData.append('action', action);
-        
-        const response = await fetch('http://localhost/nightmarket/api/follows.php', {
-            method: 'POST',
-            credentials: 'include',
-            body: formData
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            button.classList.toggle('following');
-            button.textContent = isFollowing ? '追蹤' : '已追蹤';
-            // 更新追蹤數量
-            await updateFollowCounts(userId);
-        } else {
-            throw new Error(data.message);
-        }
-    } catch (error) {
-        console.error('追蹤操作失敗:', error);
-        alert('操作失敗: ' + error.message);
-    }
-}
-
-// 更新追蹤數量
-async function updateFollowCounts(userId) {
-    try {
-        const response = await fetch(`http://localhost/nightmarket/api/follows.php?user_id=${userId}`, {
-            credentials: 'include'
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            const userElement = document.querySelector(`[data-user-id="${userId}"]`);
-            if (userElement) {
-                userElement.querySelector('.followers-count').textContent = data.followers_count;
-                userElement.querySelector('.following-count').textContent = data.following_count;
-            }
-        }
-    } catch (error) {
-        console.error('更新追蹤數量失敗:', error);
     }
 }
