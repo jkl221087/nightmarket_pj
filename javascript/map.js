@@ -3513,7 +3513,7 @@ function showInfoCard(regionId, event) {
 
     filteredMarkets.forEach(market => {
         const marketElement = document.createElement('div');
-        marketElement.className = 'market-item bg-gray-700 p-3 rounded-lg mb-3';
+        marketElement.className = 'market-item bg-gray-800 p-3 rounded-lg mb-3 text-gray-100';
         marketElement.innerHTML = `
             <div class="flex justify-between items-start mb-2">
                 <h4 class="font-medium text-blue-400">${market.name}</h4>
@@ -3675,7 +3675,17 @@ function initializeSearch() {
     const searchInput = document.querySelector('.search-container input');
     const searchResultsContainer = document.createElement('div');
     searchResultsContainer.id = 'searchResults';
-    searchResultsContainer.className = 'search-results hidden absolute z-10 w-full mt-1 bg-gray-800 rounded-lg shadow-lg max-h-60 overflow-y-auto';
+    searchResultsContainer.className = `
+    search-results hidden absolute z-20 w-full mt-1
+    bg-[rgba(26,32,44,0.95)]
+    backdrop-filter backdrop-blur-sm
+    border border-white/10
+    font-bold
+    text-[50px]
+    text-lg
+    rounded-lg shadow-lg
+    max-h-60 overflow-y-auto
+`;
     document.querySelector('.search-container').appendChild(searchResultsContainer);
 
     // 添加搜尋輸入事件監聽
@@ -3855,7 +3865,7 @@ function displaySearchResults(results) {
                 <div class="flex justify-between items-start">
                     <div>
                         <div class="text-white">${result.market.name}</div>
-                        <div class="text-sm text-gray-400">${result.regionName}</div>
+                        <div class="text-sm">${result.regionName}</div>
                     </div>
                     <div class="text-yellow-400">★ ${result.market.rating}</div>
                 </div>
@@ -4001,6 +4011,38 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeSearch();
   initializeFilters();
 });
+
+
+// 在文檔加載完成後新增右下角的「往下滑」提示
+document.addEventListener('DOMContentLoaded', function() {
+  // 創建提示容器
+  const scrollReminder = document.createElement('div');
+  scrollReminder.className = "scroll-reminder fixed bottom-4 right-4 flex flex-col items-center cursor-pointer z-50 animate-bounce";
+  
+  // 設定內部 HTML：提示文字與包裹箭頭的圓形容器
+  scrollReminder.innerHTML = `
+    <span class="mb-1 text-sm text-block">尋找附近夜市</span>
+    <div class="bg-yellow-500 rounded-full p-3">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M17 8l-5 5-5-5" />
+      </svg>
+    </div>
+  `;
+  
+  // 點擊提示後向下平滑捲動一個視窗高度
+  scrollReminder.addEventListener('click', function() {
+    window.scrollBy({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  });
+  
+  // 將提示加入到 body 中
+  document.body.appendChild(scrollReminder);
+});
+
+
 
 
 

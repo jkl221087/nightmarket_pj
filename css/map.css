@@ -2,38 +2,35 @@ html,
 body {
   margin: 0;
   padding: 0;
-  /* 若想要背景色可直接設定在此 */
-  background-color: #0F172A;
-  /* 假設想要深藍灰色背景 */
 }
-
+/*要改動整個背景顏色*/
 body {
-  background: linear-gradient(to bottom, #1a1f2c, #2d3748);
   min-height: 100vh;
-  color: #000000;
 }
 
 .map-container {
   position: relative;
   height: calc(100vh - 80px);
-  background-color: #1a1a1a;
-  background: #1a1a1a;
+  background-color: #ffffff;
+  background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
 
+
+
 /* 地圖區域樣式 */
 .region {
   fill: transparent;
-  stroke: #fbff00;
+  stroke: #000000;
   stroke-width: 1;
   transition: all 0.5s;
   cursor: pointer;
 }
 
 .region:hover {
-  fill: rgb(0, 255, 55);
+  fill: rgba(255, 230, 0, 0.829);
   stroke: #fff306;
   filter: drop-shadow(0 0 8px rgba(255, 242, 3, 0.3));
 }
@@ -48,23 +45,31 @@ body {
   position: fixed;
   top: 1rem;
   right: 1rem;
-  /* 在小螢幕時自動縮放，不要硬性固定 300px */
   width: clamp(280px, 90%, 320px);
 
-  background: rgba(45, 55, 72, 0.95);
+  /* 半透明橘色漸層背景 + 背景模糊效果 */
+  background: linear-gradient(135deg, rgba(255, 127, 80, 0.7), rgba(255, 187, 80, 0.7));
   backdrop-filter: blur(12px);
+
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 
-  display: none;
+  padding: 1rem;
+  color: #fff;
+
+  /* 預設隱藏並準備進出場動畫 */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
   z-index: 9999;
 }
 
-/* 顯示時套用 active，並有淡入動畫 */
+/* 顯示卡片時，加上 .active 或其他控制用的 class */
 .info-card.active {
-  display: block;
-  animation: fadeIn 0.3s ease-in-out;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* 簡單的淡入動畫 */
@@ -82,7 +87,11 @@ body {
 
 /* Header 樣式 */
 header {
-  background: rgba(26, 32, 44, 0.95);
+  position: relative;
+    /* 若原本沒定位，需加上 position */
+  z-index: 10000;
+  /* 高於 info-card 的 9999 */
+  background: linear-gradient(135deg, #ff7f50, #ffbb50);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -91,18 +100,40 @@ header {
 /* 搜尋框樣式 */
 .search-container {
   position: relative;
+  z-index: 10000;
+}
+
+/*搜尋框背景顏色*/
+.search-results {
+  background: linear-gradient(135deg, #e47f7f, #ee8080);
+  /* 與 header 相同 */
+  color: #000000;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  max-height: 15rem;
+  /* ~240px */
+  overflow-y: auto;
+  z-index: 9999;
+  /* 或更高, 看需求 */
+}
+
+.search-results::-webkit-scrollbar {
+  display: none;
+  /* WebKit 瀏覽器 (Chrome/Safari) */
 }
 
 .search-container input {
-  background: rgba(45, 55, 72, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgb(0, 0, 0);
   padding-left: 2.5rem;
   transition: all 0.3s ease;
 }
 
 .search-container input:focus {
-  background: rgba(45, 55, 72, 0.95);
-  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 .search-icon {
@@ -120,19 +151,20 @@ header {
   max-height: 400px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  /*滑塊顏色*/
+  scrollbar-color: rgb(121, 121, 121) transparent;
 }
 
 .market-item {
   padding: 0.75rem;
   border-radius: 8px;
   transition: all 0.3s;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(0, 0, 0);
   margin-bottom: 0.5rem;
 }
 
 .market-item:hover {
-  background: rgba(66, 153, 225, 0.1);
+  background: rgb(0, 0, 0);
   transform: translateY(-2px);
 }
 
@@ -157,8 +189,8 @@ header {
 }
 
 .market-tag {
-  background: rgba(66, 153, 225, 0.2);
-  color: #63b3ed;
+  background: rgb(233, 233, 233);
+  color: #dbdbdb;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.8rem;
@@ -229,21 +261,29 @@ header {
 
 /* 位置按鈕樣式 */
 .location-button {
-  background: rgba(26, 32, 44, 0.8);
+  background: rgb(255, 255, 255);
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255, 255, 255);
 }
 
-.location-button:hover {
-  background-color: rgba(66, 153, 225, 0.1);
-}
+
 
 .location-button {
-  background: #1a202c;
+  background: linear-gradient(135deg, #ff7f50, #ffbb50);
   border-radius: 0.5rem;
   padding: 1rem;
-  color: white;
+  color: rgb(0, 0, 0);
+}
+
+/* .location-button:hover {
+  background: linear-gradient(135deg, #ff7f5065, #ffbb50);
+} */
+
+/*最下方目前位置的字體大小*/
+.flex span{
+  font-size: 1.05rem;
+  font-weight: bold;
 }
 
 .button {
@@ -254,7 +294,8 @@ header {
   gap: 0.5rem;
   background: #2563eb;
   color: white;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: bold;
   padding: 0.75rem 1rem;
   border-radius: 8px;
   border: none;
@@ -284,6 +325,16 @@ header {
   margin-top: 0.5rem;
 }
 
+.scroll-reminder {
+  position: fixed;
+  bottom: 48rem;
+  /* 距離底部 1rem (16px) */
+  right: 1rem;
+  /* 距離右側 1rem (16px) */
+  z-index: 9999;
+  /* 讓它浮在最上層 */
+}
+
 @keyframes spin {
   from {
       transform: rotate(0deg);
@@ -298,23 +349,67 @@ header {
   animation: spin 1s linear infinite;
 }
 
-/* 響應式設計 */
 @media (max-width: 768px) {
+
+  /* 1. 縮小 Header 區域 */
+  header {
+    padding: 0.5rem 1rem;
+    /* 減少上下 padding */
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+    /* 縮小標題字體 */
+  }
+
+  /* 2. 調整搜尋框或其他 Header 元素的大小、間距 */
+  .search-container input {
+    font-size: 0.875rem;
+    /* 小一點字體 */
+    padding: 0.5rem 2rem;
+    /* 視需求微調 */
+  }
+
+  /* 3. 底部抽屜式資訊卡 (info-card) */
   .info-card {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: auto;
-      width: 100%;
-      border-radius: 12px 12px 0 0;
-      z-index: 9999;
-      /* 確保高於其他元素 */
-      background-color: #fff;
-      /* 可以自行修改背景 */
-    }
-  
+    /* 固定在螢幕底部 */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    z-index: 9999;
+
+    /* 關鍵：限制最高佔螢幕 60~70%，並可在卡片內捲動 */
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* 4. 地圖容器高度 (扣除 Header 空間) */
   .map-container {
-    height: calc(100vh - 160px);
+    /* 假設 Header 約 60px~80px，可自行調整 */
+    height: calc(100vh - 80px);
+  }
+
+  /* 5. 若卡片內部字體或項目過大，也可一併縮小 */
+  .market-item {
+    font-size: 0.875rem;
+    /* 原本可能是 1rem 或更大 */
+    padding: 0.5rem;
+    /* 減少 padding */
+  }
+
+  .market-item h4 {
+    font-size: 1rem;
+    /* 調整夜市名稱字體 */
+  }
+
+  /* 也可調整按鈕大小、字體等，依需求而定 */
+  .button {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
   }
 }
