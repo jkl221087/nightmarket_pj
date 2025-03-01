@@ -1,6 +1,6 @@
 // 縣市夜市數據
 const countyData = {
-    taipei: {
+    Taipei: {
         name: '台北市',
         markets: [
             {
@@ -21,7 +21,6 @@ const countyData = {
             }
         ]
     },
-    // 可以繼續添加其他縣市的數據...
     NewTaipei: {
         name: '新北市',
         markets: [
@@ -249,6 +248,19 @@ const countyData = {
                 features: ['小吃', '飾品'],
                 description: '鄰近逢甲大學，是學生最愛的美食天堂'
             }
+        ]
+    },
+	Keelung: {
+        name: '基隆市',
+        markets: [
+            {
+                name: '基隆廟口夜市',
+                openTime: '全天24小時營業',
+                crowdLevel: '擁擠',
+                rating: 4.5,
+                features: ['小吃', '服飾'],
+                description: '台北最著名的夜市之一，以傳統小吃聞名'
+            },
         ]
     },
     Taoyuan: {
@@ -698,7 +710,7 @@ const countyData = {
             }
         ]
     },
-    taichung: {
+    Taichung: {
         name: '台中市',
         markets: [
             {
@@ -1785,6 +1797,19 @@ const countyData = {
                 features: ['小吃', '飾品'],
                 description: '鄰近逢甲大學，是學生最愛的美食天堂'
             }
+        ]
+    },
+	ChiayiCounty: {
+        name: '嘉義縣',
+        markets: [
+            {
+                name: '大林夜市',
+                openTime: '星期一	17:00–22:00',
+                crowdLevel: '擁擠',
+                rating: 4.5,
+                features: ['小吃', '服飾'],
+                description: '台北最著名的夜市之一，以傳統小吃聞名'
+            },
         ]
     },
     Tainan: {
