@@ -86,7 +86,7 @@ body {
 .hero {
     position: relative;
     height: 100vh;
-    background: url(../tp.jpg) center/cover no-repeat;
+    background: url("../pages/images/Taipei.jpg") center/cover no-repeat;
     overflow: hidden;
     display: flex;
     flex-direction: column;
