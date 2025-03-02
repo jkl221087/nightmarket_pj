@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nealle RECRUIT</title>
+    <style>
+        /* 基礎重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f8fa;
+            overflow-x: hidden;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* 導航欄樣式 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #222;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 18px;
+            font-weight: normal;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-link.normal {
+            color: #333;
+            background-color: rgba(240, 240, 240, 0.8);
+        }
+
+        .nav-link.primary {
+            color: white;
+            background-color: #222;
+            padding: 8px 25px;
+        }
+
+        .nav-link.arrow::after {
+            content: "→";
+            margin-left: 5px;
+        }
+
+        /* 側邊導航 */
+        .side-nav {
+            position: absolute;
+            left: 40px;
+            top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .side-nav a:hover {
+            color: #000;
+        }
+
+        /* 主要內容區域 */
+        .content {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 100px);
+            overflow: hidden;
+        }
+
+        /* 圖片滑動容器 */
+        .slider-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 圖片卡片滑動軌道 */
+        .slider-track {
+            display: flex;
+            width: 300%;
+            /* 足夠寬以容納多個卡片組 */
+            animation: slide 30s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+                /* 滑動一半的距離 */
+            }
+        }
+
+        /* 暫停滑動當鼠標懸停 */
+        .slider-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* 圖片卡片組 */
+        .card-group {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            /* 或 min-height: 600px; 依實際需求調整 */
+            flex-shrink: 0;
+        }
+
+        /* 圖片卡片 */
+        .image-card {
+            position: absolute;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease;
+            cursor: pointer;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-card.card1 {
+            width: 30%;
+            height: 50%;
+            left: 15%;
+            top: 20%;
+        }
+
+        .image-card.card2 {
+            width: 35%;
+            height: 55%;
+            left: 50%;
+            top: 5%;
+        }
+
+        .image-card.card3 {
+            width: 32%;
+            height: 48%;
+            left: 68%;
+            top: 65%;
+        }
+
+        /* 擴展卡片樣式 */
+        .image-card.expanded {
+            position: fixed;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 80% !important;
+            height: 80% !important;
+            z-index: 100;
+        }
+
+        /* 半透明背景圓圈裝飾 */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(200, 200, 200, 0.15);
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+        .circle1 {
+            width: 400px;
+            height: 400px;
+            left: -100px;
+            bottom: -200px;
+        }
+
+        .circle2 {
+            width: 300px;
+            height: 300px;
+            right: 10%;
+            top: 30%;
+        }
+
+        /* 遮罩層 */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 50;
+        }
+
+        /* RWD 適配 */
+        @media (max-width: 1024px) {
+            .image-card.card1 {
+                width: 35%;
+                left: 10%;
+            }
+
+            .image-card.card2 {
+                width: 40%;
+                left: 48%;
+            }
+
+            .image-card.card3 {
+                width: 38%;
+                left: 60%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .side-nav {
+                left: 20px;
+                top: 120px;
+            }
+
+            .image-card.card1 {
+                width: 45%;
+                height: 35%;
+                left: 5%;
+                top: 15%;
+            }
+
+            .image-card.card2 {
+                width: 50%;
+                height: 40%;
+                left: 40%;
+                top: 10%;
+            }
+
+            .image-card.card3 {
+                width: 45%;
+                height: 35%;
+                left: 50%;
+                top: 55%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Nealle</h1>
+            <span>RECRUIT</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link normal">ミッション</a>
+            <a href="#" class="nav-link normal arrow">カジュアル面談</a>
+            <a href="#" class="nav-link primary arrow">募集要項</a>
+        </div>
+    </nav>
+
+    <!-- 側邊導航 -->
+    <div class="side-nav">
+        <a href="#">私たちがつくる未来</a>
+        <a href="#">ミッション・バリューズ</a>
+        <a href="#">働く環境</a>
+        <a href="#">仕事を知る</a>
+    </div>
+
+    <!-- 主要內容區域 -->
+    <div class="content">
+        <!-- 背景裝飾 -->
+        <div class="bg-circle circle1"></div>
+        <div class="bg-circle circle2"></div>
+
+        <!-- 滑動容器 -->
+        <div class="slider-container">
+            <div class="slider-track">
+                <!-- 第一組卡片 -->
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+
+                <!-- 第二組卡片 (複製以實現無縫滾動) -->
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.image-card');
+            const overlay = document.getElementById('overlay');
+
+            // 點擊卡片放大效果
+            cards.forEach(card => {
+                card.addEventListener('click', function () {
+                    const isExpanded = card.classList.contains('expanded');
+
+                    // 重置所有卡片
+                    cards.forEach(c => {
+                        c.classList.remove('expanded');
+                    });
+
+                    if (!isExpanded) {
+                        // 暫停滑動動畫
+                        document.querySelector('.slider-track').style.animationPlayState = 'paused';
+
+                        // 顯示遮罩和放大卡片
+                        overlay.style.display = 'block';
+                        card.classList.add('expanded');
+
+                        // 確保卡片在最上層
+                        setTimeout(() => {
+                            card.style.zIndex = '101';
+                        }, 0);
+                    } else {
+                        // 恢復滑動動畫
+                        document.querySelector('.slider-track').style.animationPlayState = 'running';
+
+                        // 隱藏遮罩
+                        overlay.style.display = 'none';
+                        card.style.zIndex = '';
+                    }
+                });
+            });
+
+            // 點擊遮罩關閉放大的卡片
+            overlay.addEventListener('click', function () {
+                cards.forEach(card => {
+                    card.classList.remove('expanded');
+                    card.style.zIndex = '';
+                });
+
+                // 恢復滑動動畫
+                document.querySelector('.slider-track').style.animationPlayState = 'running';
+
+                // 隱藏遮罩
+                overlay.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>
