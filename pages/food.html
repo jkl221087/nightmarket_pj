@@ -128,9 +128,15 @@
         /* 圖片卡片滑動軌道 */
         .slider-track {
             display: flex;
-            width: 300%;
-            /* 足夠寬以容納多個卡片組 */
+            width: 300vw;
             animation: slide 30s linear infinite;
+        }
+
+        .card-group {
+            width: 100vw;
+            /* 每組佔滿整個視窗 */
+            height: 600px;
+            /* 固定高度 */
         }
 
         @keyframes slide {
@@ -139,8 +145,8 @@
             }
 
             100% {
-                transform: translateX(-50%);
-                /* 滑動一半的距離 */
+                transform: translateX(-200vw);
+                /* 滑過 2 個視窗寬度 */
             }
         }
 
@@ -301,22 +307,20 @@
     <!-- 導航欄 -->
     <nav class="navbar">
         <div class="logo">
-            <h1>Nealle</h1>
-            <span>RECRUIT</span>
+            <h1>夜市美食</h1>
+            <span>介紹</span>
         </div>
-        <div class="nav-links">
+        <!-- <div class="nav-links">
             <a href="#" class="nav-link normal">ミッション</a>
             <a href="#" class="nav-link normal arrow">カジュアル面談</a>
             <a href="#" class="nav-link primary arrow">募集要項</a>
-        </div>
+        </div> -->
     </nav>
 
     <!-- 側邊導航 -->
     <div class="side-nav">
-        <a href="#">私たちがつくる未来</a>
-        <a href="#">ミッション・バリューズ</a>
-        <a href="#">働く環境</a>
-        <a href="#">仕事を知る</a>
+        <a href="#">店家介紹</a>
+        <a href="#">美食介紹</a>
     </div>
 
     <!-- 主要內容區域 -->
@@ -352,38 +356,8 @@
                     <div class="image-card card3">
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
                     </div>
-                    <div class="image-card card3">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
-                    </div>
                 </div>
-                <div class="card-group">
-                    <div class="image-card card1">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
-                    </div>
-                    <div class="image-card card2">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
-                    </div>
-                    <div class="image-card card3">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
-                    </div>
-                    <div class="image-card card3">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
-                    </div>
-                </div>
-                <div class="card-group">
-                    <div class="image-card card1">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
-                    </div>
-                    <div class="image-card card2">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
-                    </div>
-                    <div class="image-card card3">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
-                    </div>
-                    <div class="image-card card3">
-                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
-                    </div>
-                </div>
+
                 <div class="card-group">
                     <div class="image-card card1">
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
@@ -395,6 +369,7 @@
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
                     </div>
                 </div>
+
                 <div class="card-group">
                     <div class="image-card card1">
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
@@ -406,6 +381,7 @@
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
                     </div>
                 </div>
+
                 <div class="card-group">
                     <div class="image-card card1">
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
@@ -417,6 +393,31 @@
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
                     </div>
                 </div>
+
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+
+                <div class="card-group">
+                    <div class="image-card card1">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
+                    </div>
+                    <div class="image-card card2">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="オフィスで働く男性">
+                    </div>
+                    <div class="image-card card3">
+                        <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="パソコンを使用している男性">
+                    </div>
+                </div>
+
                 <div class="card-group">
                     <div class="image-card card1">
                         <img src="https://candylife.tw/wp-content/uploads/20230311013617_45.jpg" alt="笑顔の女性">
