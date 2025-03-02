@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣店家介紹</title>
+    <style>
+        /* 基礎重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f8fa;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* 導航欄樣式 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #222;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-size: 18px;
+            font-weight: normal;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .nav-link.normal {
+            color: #333;
+            background-color: rgba(240, 240, 240, 0.8);
+        }
+
+        .nav-link.primary {
+            color: white;
+            background-color: #222;
+            padding: 8px 25px;
+        }
+
+        .nav-link.arrow::after {
+            content: "→";
+            margin-left: 5px;
+        }
+
+        /* 側邊導航 */
+        .side-nav {
+            position: fixed;
+            left: 40px;
+            top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .side-nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            position: relative;
+            transition: color 0.3s;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .side-nav a:hover,
+        .side-nav a.active {
+            color: #000;
+            background-color: rgba(240, 240, 240, 0.8);
+            font-weight: bold;
+        }
+
+        /* 主要內容區域 */
+        .content {
+            display: flex;
+            flex-direction: column;
+            margin-left: 200px;
+            margin-right: 40px;
+            padding-top: 40px;
+            padding-bottom: 60px;
+            position: relative;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* 區域分類 */
+        .region {
+            margin-bottom: 60px;
+        }
+
+        .region-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #222;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            position: relative;
+        }
+
+        .region-title::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: #222;
+        }
+
+        /* 店家卡片網格 */
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* 店家卡片 */
+        .store-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .store-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .store-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .store-card:hover .store-image img {
+            transform: scale(1.05);
+        }
+
+        .store-info {
+            padding: 20px;
+        }
+
+        .store-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .store-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .store-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .store-location {
+            display: flex;
+            align-items: center;
+        }
+
+        .store-location::before {
+            content: "📍";
+            margin-right: 5px;
+        }
+
+        .store-rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .store-rating::before {
+            content: "★";
+            color: #FFD700;
+            margin-right: 3px;
+        }
+
+        /* 背景裝飾 */
+        .bg-circle {
+            position: fixed;
+            border-radius: 50%;
+            background-color: rgba(200, 200, 200, 0.15);
+            filter: blur(30px);
+            z-index: -1;
+        }
+
+        .circle1 {
+            width: 400px;
+            height: 400px;
+            left: -100px;
+            bottom: -200px;
+        }
+
+        .circle2 {
+            width: 300px;
+            height: 300px;
+            right: 10%;
+            top: 30%;
+        }
+
+        /* 店家詳情模態框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            position: relative;
+            height: 250px;
+        }
+
+        .modal-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            z-index: 101;
+        }
+
+        .modal-close:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .modal-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .info-icon {
+            width: 24px;
+            margin-right: 10px;
+            color: #222;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* 回到頂部按鈕 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background-color: #222;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(20px);
+            z-index: 30;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RWD 適配 */
+        @media (max-width: 1024px) {
+            .content {
+                margin-left: 160px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .side-nav {
+                left: 20px;
+                top: 120px;
+            }
+
+            .content {
+                margin-left: 120px;
+                margin-right: 20px;
+            }
+
+            .stores-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .side-nav {
+                position: static;
+                flex-direction: row;
+                width: 100%;
+                overflow-x: auto;
+                padding: 10px 20px;
+                background-color: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                justify-content: flex-start;
+                margin-bottom: 20px;
+            }
+
+            .content {
+                margin-left: 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>夜市美食</h1>
+            <span>介紹</span>
+        </div>
+        <div class="nav-links">
+            <a href="food.html" class="nav-link normal">首頁</a>
+            <a href="#" class="nav-link primary arrow">店家介紹</a>
+        </div>
+    </nav>
+
+    <!-- 側邊導航 -->
+    <div class="side-nav">
+        <a href="#northern" class="active">北部地區</a>
+        <a href="#central">中部地區</a>
+        <a href="#southern">南部地區</a>
+        <a href="#eastern">東部地區</a>
+        <a href="#island">離島地區</a>
+    </div>
+
+    <!-- 主要內容區域 -->
+    <div class="content">
+        <!-- 北部地區 -->
+        <div id="northern" class="region">
+            <h2 class="region-title">北部地區美食</h2>
+            <div class="stores-grid">
+                <!-- 店家卡片 1 -->
+                <div class="store-card" data-id="1">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="臺北士林夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">士林夜市小吃攤</h3>
+                        <p class="store-description">提供多種台灣傳統小吃，包括大腸包小腸、炸雞排等美食。</p>
+                        <div class="store-meta">
+                            <div class="store-location">臺北市士林區</div>
+                            <div class="store-rating">4.5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 2 -->
+                <div class="store-card" data-id="2">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="臺北饒河街夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">饒河街臭豆腐</h3>
+                        <p class="store-description">招牌臭豆腐外酥內軟，搭配特製泡菜，香氣四溢。</p>
+                        <div class="store-meta">
+                            <div class="store-location">臺北市松山區</div>
+                            <div class="store-rating">4.7</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 3 -->
+                <div class="store-card" data-id="3">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="基隆廟口夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">基隆廟口天婦羅</h3>
+                        <p class="store-description">使用新鮮海產製作的天婦羅，外酥內嫩，風味獨特。</p>
+                        <div class="store-meta">
+                            <div class="store-location">基隆市仁愛區</div>
+                            <div class="store-rating">4.6</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 中部地區 -->
+        <div id="central" class="region">
+            <h2 class="region-title">中部地區美食</h2>
+            <div class="stores-grid">
+                <!-- 店家卡片 4 -->
+                <div class="store-card" data-id="4">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="台中逢甲夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">逢甲鹽酥雞</h3>
+                        <p class="store-description">採用特調醬料醃製，香酥可口，是夜市必嚐美食。</p>
+                        <div class="store-meta">
+                            <div class="store-location">台中市西屯區</div>
+                            <div class="store-rating">4.8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 5 -->
+                <div class="store-card" data-id="5">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="彰化員林夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">員林肉圓</h3>
+                        <p class="store-description">傳統彰化肉圓，外皮Q彈，內餡鮮美多汁，搭配特製醬料。</p>
+                        <div class="store-meta">
+                            <div class="store-location">彰化縣員林市</div>
+                            <div class="store-rating">4.5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 6 -->
+                <div class="store-card" data-id="6">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="南投埔里夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">埔里山豬肉香腸</h3>
+                        <p class="store-description">使用埔里特產山豬肉製作，風味獨特，口感紮實。</p>
+                        <div class="store-meta">
+                            <div class="store-location">南投縣埔里鎮</div>
+                            <div class="store-rating">4.3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 南部地區 -->
+        <div id="southern" class="region">
+            <h2 class="region-title">南部地區美食</h2>
+            <div class="stores-grid">
+                <!-- 店家卡片 7 -->
+                <div class="store-card" data-id="7">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="台南花園夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">台南度小月擔仔麵</h3>
+                        <p class="store-description">百年老店傳承的美味，湯頭鮮甜，麵條彈牙。</p>
+                        <div class="store-meta">
+                            <div class="store-location">台南市中西區</div>
+                            <div class="store-rating">4.9</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 8 -->
+                <div class="store-card" data-id="8">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="高雄六合夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">六合木瓜牛奶</h3>
+                        <p class="store-description">新鮮木瓜和濃郁牛奶完美結合，清涼消暑的夏季飲品。</p>
+                        <div class="store-meta">
+                            <div class="store-location">高雄市新興區</div>
+                            <div class="store-rating">4.4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 9 -->
+                <div class="store-card" data-id="9">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="屏東墾丁大街">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">墾丁大街鮮果冰沙</h3>
+                        <p class="store-description">使用當季水果製作，清新自然，是墾丁大街上的人氣飲品。</p>
+                        <div class="store-meta">
+                            <div class="store-location">屏東縣恆春鎮</div>
+                            <div class="store-rating">4.2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 東部地區 -->
+        <div id="eastern" class="region">
+            <h2 class="region-title">東部地區美食</h2>
+            <div class="stores-grid">
+                <!-- 店家卡片 10 -->
+                <div class="store-card" data-id="10">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="宜蘭東門夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">宜蘭蔥油餅</h3>
+                        <p class="store-description">使用宜蘭特產三星蔥製作，香氣撲鼻，外酥內嫩。</p>
+                        <div class="store-meta">
+                            <div class="store-location">宜蘭市東門</div>
+                            <div class="store-rating">4.7</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 11 -->
+                <div class="store-card" data-id="11">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="花蓮東大門夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">花蓮原住民風味烤肉</h3>
+                        <p class="store-description">採用傳統原住民調味方式，肉質鮮嫩多汁，風味獨特。</p>
+                        <div class="store-meta">
+                            <div class="store-location">花蓮市東大門</div>
+                            <div class="store-rating">4.6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 12 -->
+                <div class="store-card" data-id="12">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="台東中央市場">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">台東海鮮粥</h3>
+                        <p class="store-description">使用台東新鮮漁獲製作，海味十足，營養豐富。</p>
+                        <div class="store-meta">
+                            <div class="store-location">台東市中央市場</div>
+                            <div class="store-rating">4.3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 離島地區 -->
+        <div id="island" class="region">
+            <h2 class="region-title">離島地區美食</h2>
+            <div class="stores-grid">
+                <!-- 店家卡片 13 -->
+                <div class="store-card" data-id="13">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="澎湖夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">澎湖仙人掌冰淇淋</h3>
+                        <p class="store-description">使用澎湖特產仙人掌製作，清爽獨特，是夏季消暑聖品。</p>
+                        <div class="store-meta">
+                            <div class="store-location">澎湖縣馬公市</div>
+                            <div class="store-rating">4.5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 14 -->
+                <div class="store-card" data-id="14">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="金門夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">金門高粱牛肉乾</h3>
+                        <p class="store-description">以金門高粱酒醃製，肉質紮實有嚼勁，風味獨特。</p>
+                        <div class="store-meta">
+                            <div class="store-location">金門縣金城鎮</div>
+                            <div class="store-rating">4.8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 店家卡片 15 -->
+                <div class="store-card" data-id="15">
+                    <div class="store-image">
+                        <img src="/api/placeholder/400/200" alt="綠島夜市">
+                    </div>
+                    <div class="store-info">
+                        <h3 class="store-name">綠島海鮮炒麵</h3>
+                        <p class="store-description">使用當日捕獲的新鮮海鮮製作，鮮味十足，是島上特色美食。</p>
+                        <div class="store-meta">
+                            <div class="store-location">台東縣綠島鄉</div>
+                            <div class="store-rating">4.4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 店家詳情模態框 -->
+    <div class="modal" id="storeModal">
+        <div class="modal-content">
+            <div class="modal-close">&times;</div>
+            <div class="modal-header">
+                <img id="modalImage" src="/api/placeholder/800/400" alt="店家照片">
+            </div>
+            <div class="modal-body">
+                <h2 id="modalTitle" class="modal-title">店家名稱</h2>
+
+                <div class="modal-section">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-icon">📍</div>
+                            <div id="modalLocation" class="info-text">地址</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">⏰</div>
+                            <div id="modalHours" class="info-text">營業時間</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div id="modalPhone" class="info-text">電話</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">★</div>
+                            <div id="modalRating" class="info-text">評分</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">店家介紹</h3>
+                    <p id="modalDescription" class="modal-description">店家詳細介紹內容</p>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">特色美食</h3>
+                    <p id="modalSpecialties" class="modal-description">特色美食介紹</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景裝飾 -->
+    <div class="bg-circle circle1"></div>
+    <div class="bg-circle circle2"></div>
+
+    <!-- 回到頂部按鈕 -->
+    <div class="back-to-top" id="backToTop">↑</div>
+
+
+    <script src="../javascript/market.js"></script>
+</body>
+
+</html>
