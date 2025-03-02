@@ -3886,44 +3886,6 @@ function hideInfoCard() {
 document.addEventListener('DOMContentLoaded', initializeSearch);
 
 
-
-
-// 新增篩選狀態
-let filters = {
-  isOpen: false,
-  hasFood: false,
-  hasAccessories: false
-};
-
-// 初始化篩選功能
-function initializeFilters() {
-  const checkboxes = document.querySelectorAll('.filter-item input[type="checkbox"]');
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      const filterType = this.closest('.filter-item').querySelector('span').textContent;
-      switch(filterType) {
-        case '營業中':
-          filters.isOpen = this.checked;
-          break;
-        case '小吃':
-          filters.hasFood = this.checked;
-          break;
-        case '飾品':
-          filters.hasAccessories = this.checked;
-          break;
-      }
-      
-      // 如果資訊卡片正在顯示，則更新顯示的內容
-      if (isCardVisible) {
-        const currentRegion = document.querySelector('.region.active');
-        if (currentRegion) {
-          showInfoCard(currentRegion.id, lastEvent);
-        }
-      }
-    });
-  });
-}
-
 // 檢查夜市是否營業中
 function isMarketOpen(openTime) {
   const now = new Date();
